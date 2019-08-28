@@ -1,0 +1,23 @@
+SET LINESIZE 80
+BREAK ON route_no on route_name on schedule_no
+
+COLUMN route_no FORMAT A8
+COLUMN route_name FORMAT A20
+COLUMN schedule_no FORMAT A12
+ALTER SESSION SET NLS_DATE_FORMAT = 'hh:mi:ss AM'; 
+COLUMN direction FORMAT A9
+
+cl scr
+
+ACCEPT input_route_no  CHAR FORMAT A5 PROMPT 'Enter the route no :'
+ACCEPT input_direction CHAR FORMAT A5 PROMPT 'Enter the direction:'
+
+TTITLE CENTER "TRAIN SCHEDULE &input_direction to &input_route_no" SKIP 2
+
+SELECT R.route_no, R.route_name, schedule_no,
+  train_schedule_start_time AS "START TIME",
+  train_schedule_end_time AS "END TIME", direction
+FROM train_schedule TS, route R
+WHERE TS.route_no = '&input_route_no' AND TS.route_no = R.route_no AND UPPER(TS.direction) = UPPER('&input_direction');
+
+CLEAR BREAK;

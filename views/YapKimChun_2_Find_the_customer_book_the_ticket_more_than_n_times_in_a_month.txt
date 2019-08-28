@@ -1,0 +1,22 @@
+COLUMN customer_id FORMAT A15
+COLUMN customer_name FORMAT A30
+COLUMN MONTH FORMAT 99999
+COLUMN FREQUENCY FORMAT 999
+SET LINESIZE 80
+SET PAGESIZE 100
+
+BREAK ON MONTH
+
+ACCEPT freq NUMBER FORMAT 9 PROMPT "Enter the number of ticket of the customer booked in a month : "
+
+TTITLE CENTER "CUSTOMER THAT BOOKED MORE THAN" freq "TIMES IN A MONTH" SKIP 2
+
+SELECT EXTRACT(MONTH FROM payment_datetime) as MONTH, C.customer_id, 
+C.customer_name, COUNT(payment_no) AS FREQUENCY 
+FROM   customer C, payment P
+WHERE  C.customer_id = P.customer_id
+GROUP BY EXTRACT(MONTH FROM payment_datetime), C.customer_id, customer_name
+HAVING COUNT(payment_no) > &freq
+ORDER BY MONTH, FREQUENCY DESC, C.customer_id;
+
+CLEAR BREAK;
