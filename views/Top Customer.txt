@@ -1,0 +1,27 @@
+clear scr
+
+PROMPT 'Display The Top Customer'
+PROMPT
+ACCEPT v_start_date	date	FORMAT 'dd/mm/yyyy'	PROMPT 'Enter starting date (dd/mm/yyyy) :'
+ACCEPT v_end_date	date	FORMAT 'dd/mm/yyyy'	PROMPT 'Enter ending date   (dd/mm/yyyy) :'
+
+SET PAGESIZE 1000
+SET NEWPAGE 1
+SET LINESIZE 85
+
+COLUMN customer_id  format A11  HEADING "Customer ID"                         
+COLUMN customer_name            HEADING "Customer Name" 
+
+COLUMN SUM(p.payment_amount) format 9999.99 HEADING "Highest Payment"
+
+clear scr
+TTITLE CENTER 'KMB TRAIN Sdn. Bhd.' SKIP 1 -
+CENTER 'Top Customer Of KMB ' 'between' ' &v_start_date ' 'and' ' &v_end_date' 
+
+SELECT c.customer_id, c.customer_name, SUM(p.payment_amount) 
+FROM customer c, payment p
+WHERE c.customer_id=p.customer_id AND (p.payment_datetime BETWEEN '&v_start_date' AND '&v_end_date')
+GROUP BY c.customer_id,c.customer_name
+ORDER BY  SUM(p.payment_amount) DESC;
+
+TTITLE OFF
