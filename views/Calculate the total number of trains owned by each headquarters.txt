@@ -1,0 +1,27 @@
+cl scr
+set linesize 80
+SET PAGESIZE 50
+
+PROMPT 'DISPLAY THE TOTAL NUMBER OF TRAINS OWNED BY EACH HEADQUARTERS'
+PROMPT
+ACCEPT v_headquarter_id	 CHAR FORMAT 'A5' PROMPT 'Enter Headquarter ID :'
+
+cl scr
+TTITLE CENTER 'KMB TRAIN Sdn. Bhd.' SKIP 1 -
+CENTER 'THE TOTAL NUMBER OF TRAINS OWNED BY '&v_headquarter_id' HEADQUARTERS' SKIP 1 -
+RIGHT 'Page:' FORMAT 999 sql.pno SKIP 2 
+REPFOOTER CENTER 'END OF REPORT' 
+
+
+column HEADQUARTER_ID format A5 Heading 'HQ_ID'
+column HEADQUARTER_NAME format A50 Heading 'HQ_NAME'
+
+SELECT DISTINCT HR.headquarter_id, HR.headquarter_name, COUNT(train_no) AS TOTAL_NO_OF_TRAINS 
+FROM headquarters_AND_route HR, route_AND_train RT
+WHERE HR.route_no = RT.route_no AND HR.headquarter_id = '&v_headquarter_id' 
+GROUP BY HR.headquarter_id,HR.headquarter_name;
+
+
+CLEAR COLUMNS
+CLEAR BREAKS
+TTITLE OFF
