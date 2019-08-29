@@ -1,0 +1,32 @@
+cl scr
+/*Set Report Formatting*/
+set linesize 81
+set pagesize 50
+BREAK ON customer_id ON customer_name ON customer_phone
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY HH:MI:SS AM'; 
+
+/*Set Title*/
+PROMPT 'CUSTOMERS BOOKING DETAILS'
+PROMPT
+ACCEPT v_start_date	date	FORMAT 'dd/mm/yyyy'	PROMPT 'Enter starting date (dd/mm/yyyy) :'
+ACCEPT v_end_date	date	FORMAT 'dd/mm/yyyy'	PROMPT 'Enter ending date   (dd/mm/yyyy) :'
+
+cl scr
+TTITLE CENTER 'KMB TRAIN Sdn. Bhd.' SKIP 1 -
+CENTER 'Customers Booking Details' ' between ' '&v_start_date' ' and ' '&v_end_date' SKIP 1 -
+RIGHT 'Page:' FORMAT 999 sql.pno SKIP 2
+
+/*Set Column Formatting*/
+COLUMN customer_id FORMAT A7 Heading 'CUST_NO'
+COLUMN customer_name FORMAT A30 Heading 'CUST_NAME'
+COLUMN customer_phone FORMAT A14 Heading 'CUST_PHONE'
+COLUMN booking_date FORMAT A25 Heading 'BOOKING_DATE'
+
+SELECT C.customer_id,C.customer_name, C.customer_phone, B.booking_date
+FROM CUSTOMER C, PAYMENT P, BOOKING B
+WHERE (C.customer_id=P.customer_id) AND (P.payment_no=B.payment_no) AND (booking_date BETWEEN '&v_start_date' AND '&v_end_date')
+ORDER BY customer_id,booking_date;
+
+CLEAR COLUMNS
+CLEAR BREAKS
+TTITLE OFF
