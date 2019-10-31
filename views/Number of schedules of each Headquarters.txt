@@ -1,0 +1,26 @@
+clear scr
+PROMPT 'Display The Number of Train Schedules of each Headquarters'
+
+SET LINESIZE 300
+
+SELECT headquarter_id, headquarter_name
+FROM headquarters;
+
+ACCEPT hq_id  CHAR PROMPT 'Enter value of headquarters ID: '
+
+clear scr
+TTITLE CENTER 'The Number Of Train Schedules of ' '&hq_id'
+
+SELECT s.station_no, s.station_name,COUNT(ts.schedule_no)AS
+  "Number of schedule"
+FROM station s, train_schedule ts, route r, headquarters h
+WHERE ts.route_no=r.route_no AND 
+ r.route_no=s.route_no AND
+ s.headquarter_id=h.headquarter_id AND 
+ h.headquarter_id LIKE '&hq_id%'
+GROUP BY s.station_no, s.station_name
+ORDER BY s.station_no;
+
+TTITLE OFF
+
+

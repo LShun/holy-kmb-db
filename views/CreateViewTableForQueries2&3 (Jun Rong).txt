@@ -1,0 +1,9 @@
+CREATE VIEW headquarters_AND_route AS
+SELECT DISTINCT S.headquarter_id, R.route_no, H.headquarter_name
+FROM station S, route R, headquarters H 
+WHERE (H.headquarter_id=S.headquarter_id) AND (S.route_no = R.route_no);
+
+CREATE VIEW route_AND_train AS
+SELECT DISTINCT R.route_no, T.train_no
+FROM route R, train T, train_schedule TS
+WHERE R.route_no = TS.route_no AND TS.train_no = T.train_no;

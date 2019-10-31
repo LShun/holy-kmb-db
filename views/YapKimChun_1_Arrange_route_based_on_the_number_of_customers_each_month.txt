@@ -1,0 +1,17 @@
+BREAK ON MONTH SKIP PAGE 1
+COMPUTE sum LABEL 'TOTAL' OF TOTAL_CUSTOMER ON MONTH
+
+SET LINESIZE 60
+COLUMN route_no FORMAT A8
+COLUMN route_name FORMAT A20
+COLUMN TOTAL_CUSTOMER FORMAT 999
+
+ACCEPT month NUMBER FORMAT 99 PROMPT "Enter the month : "
+
+TTITLE CENTER 'Customer Amount In Each Route A Month' SKIP 2
+
+SELECT EXTRACT(MONTH FROM booking_date) as MONTH, R.route_no, R.route_name, COUNT(B.booking_no) AS Total_Customer
+FROM route R, arrival A, station S, booking B
+WHERE B.booking_no = A.booking_no AND A.station_no = S.station_no AND S.route_no = R.route_no AND A.arrival_status = 1 AND (EXTRACT(MONTH FROM booking_date) = &month OR EXTRACT(MONTH FROM booking_date) = &month-1)
+GROUP BY EXTRACT(MONTH FROM booking_date), R.route_no, R.route_name
+ORDER BY MONTH, Total_Customer DESC;

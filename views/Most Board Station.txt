@@ -1,0 +1,20 @@
+clear scr
+
+PROMPT 'Display The Most Board Station'
+PROMPT
+
+ACCEPT min_no_of_board	NUMBER FORMAT '99' PROMPT 'Enter minimum number: ' 
+
+clear scr
+TTITLE CENTER 'Most Board Station'
+PROMPT
+
+
+SELECT s.station_no, s.station_name,COUNT(d.station_no) AS "Number of Customers Departed"
+FROM customer c, payment p, booking b, departure d, station s
+WHERE c.customer_id=p.customer_id AND p.payment_no=b.payment_no AND b.booking_no=d.booking_no AND d.station_no=s.station_no
+HAVING COUNT(d.station_no)>&min_no_of_board
+GROUP BY s.station_no,s.station_name
+ORDER BY COUNT(d.station_no) DESC;
+
+TTITLE OFF
