@@ -13,12 +13,13 @@ CLEAR BREAKS
 CLEAR COMPUTES
 
 /* Set report formatting */
+ALTER SESSION SET NLS_DATE_FORMAT = 'DD/MM/YYYY';
 SET PAGESIZE 1000
 SET NEWPAGE 1
 SET LINESIZE 90
 
 /* Set column formattings */
-COLUMN train_no                     HEADING trainno                                     
+COLUMN train_no                     HEADING "Train No"                                     
 COLUMN train_model                  HEADING "Model"
 COLUMN last_maintenance_date        HEADING "Last|Maintenance"                        FORMAT A12 WORD_WRAPPED
 COLUMN weeks_no_maintenance         HEADING "Weeks|operated|since last|maintenance"
@@ -34,11 +35,8 @@ CENTER 'Maintenance Requirement View' SKIP 1 -
 LEFT 'Trains Exceed ' FORMAT 999 &v_runs ' Runs w/o Maintenance' RIGHT 'Page:' FORMAT 999 sql.pno SKIP 2
 REPFOOTER CENTER 'END OF REPORT'
 
-/* Drop the old view */
-DROP VIEW train_maintenance_check;
-
 /* Create a view */
-CREATE VIEW train_maintenance_check AS
+CREATE OR REPLACE VIEW train_maintenance_check AS
 SELECT
     train_no,
     train_model,
@@ -82,7 +80,8 @@ ORDER BY
 SELECT  *
 FROM    train_maintenance_check;
 
-/* Reset to default size */
+/* Reset to defaults*/
 SET PAGESIZE 14
 SET NEWPAGE 1
 SET LINESIZE 80
+ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';

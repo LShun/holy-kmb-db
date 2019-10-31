@@ -52,8 +52,10 @@ CREATE TABLE CUSTOMER (
   customer_phone VARCHAR(15),
   customer_email VARCHAR(50) NOT NULL,
   customer_pw VARCHAR(20) NOT NULL,
-  PRIMARY KEY (customer_id)
+  PRIMARY KEY (customer_id),
+  constraint chk_email check (customer_email like '%_@__%.__%')
 );
+
 
 CREATE TABLE PAYMENT (
   payment_no VARCHAR(15),
@@ -88,12 +90,14 @@ CREATE TABLE ARRIVAL (
   station_no VARCHAR(15),
   booking_no VARCHAR(20),
   arrival_status NUMBER(1),
-  CONSTRAINT ARRIVAL_PK PRIMARY KEY(station_no,booking_no)
+  FOREIGN KEY (station_no) REFERENCES STATION,
+  CONSTRAINT ARRIVAL_PK PRIMARY KEY(booking_no)
 );
 
 CREATE TABLE DEPARTURE (
   station_no VARCHAR(15),
   booking_no VARCHAR(20),
   departure_status NUMBER(1),
-  CONSTRAINT DEPARTURE_PK PRIMARY KEY(station_no,booking_no)
+  FOREIGN KEY (station_no) REFERENCES STATION,
+  CONSTRAINT DEPARTURE_PK PRIMARY KEY(booking_no)
 );
