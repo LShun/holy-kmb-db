@@ -1,6 +1,6 @@
 # HOLY KMB Train Database
 
-<img src="others/kmb-white-logo.png" alt="kmb-white-logo" style="zoom:50%;" />
+<img src="others/kmb-white-logo.png" alt="kmb-white-logo" style="zoom:25%;" />
 
 ## Introduction
 
@@ -8,9 +8,24 @@ A **train system database** made using Oracle SQL RDBMS (Relational Database Man
 
 A joint effort of 4 students in TARUC. For educational purpose only.
 
-## Table of Contents :bookmark_tabs:
+## Table of contents :bookmark_tabs:
 
-[TOC]
+- [HOLY KMB Train Database](#holy-kmb-train-database)
+  - [Introduction](#introduction)
+  - [Table of contents :bookmark_tabs:](#table-of-contents-bookmarktabs)
+  - [Project Objectives :o:](#project-objectives-o)
+  - [Design Specifications :page_facing_up:](#design-specifications-pagefacingup)
+    - [Database](#database)
+    - [Data Records](#data-records)
+    - [Views](#views)
+      - [Incident Reporting View](#incident-reporting-view)
+      - [Monthly Ridership View](#monthly-ridership-view)
+      - [Train Maintenance View](#train-maintenance-view)
+  - [Installation & Usage :wrench:](#installation--usage-wrench)
+    - [Software Required](#software-required)
+    - [Installation](#installation)
+    - [Using the Views for Reporting](#using-the-views-for-reporting)
+  - [Uninstallation :heavy_multiplication_x:](#uninstallation-heavymultiplicationx)
 
 ## Project Objectives :o:
 
@@ -83,4 +98,3 @@ A joint effort of 4 students in TARUC. For educational purpose only.
 
 - Using SQL*Plus, navigate into the `holy-kmb-db\others`
 - Execute `start drop_all_tables.sql`
-
